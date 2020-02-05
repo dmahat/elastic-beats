@@ -1,0 +1,18 @@
+filebeat:
+  inputs:
+    -
+      paths:
+        # - /var/log/system.log
+        - /usr/share/proto-beats/sidecar-events.log
+      # document_type: javalogs
+      # multiline.pattern: "^%{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}|%{LOGLEVEL}"
+      # multiline.negate: true
+      # multiline.match: before
+
+output:
+  logstash:
+    hosts: ["logstash:5044"]
+  # console:
+  #   pretty : "true"
+
+

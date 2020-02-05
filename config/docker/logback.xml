@@ -1,0 +1,65 @@
+<configuration>
+   <!--  
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender> -->
+	
+	
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!--  <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}|%p|%.512m|%.32H|%.32t|%X{correlationId}|%X{requestId}%n </pattern>  
+			The conversion character H is missing and gives PARSER error. //TODO fix with correct jar-->
+			<!-- 
+			  https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+			  p - log level
+			  m - app message
+			  H - host name?
+			  t - thread name
+			  %X - MDC
+			 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}|%p|%.512m|%.32t|%.32t|%X{correlationId}|%X{requestId}%n</pattern>			
+		</encoder>
+	</appender>
+
+
+	
+	<appender name="EVENTS-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/share/proto-beats/sidecar-events.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>sidecar-events.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<!--  <encoder class="net.logstash.logback.encoder.LogstashEncoder" /> -->
+		<encoder>
+			<!--  <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}|%p|%.512m|%.32H|%.32t|%X{correlationId}|%X{requestId}%n </pattern>  
+			The conversion character H is missing and gives PARSER error. //TODO fix with correct jar-->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss,SSS}|%p|%.512m|%.32t|%.32t|%X{correlationId}|%X{requestId}%n</pattern>			
+		</encoder>
+	</appender>
+
+ 
+	<logger name="jdbc" level="OFF" />
+	<!--  
+	<logger name="jdbc.sqlonly" level="debug" /> 
+	-->
+	
+	<logger name="eimsb.batch.support.listeners" level="INFO" />
+	
+	<logger name="proto.elastic.beats.app.notify" level="INFO" >
+	   <appender-ref ref="EVENTS-FILE" />
+	</logger>
+
+   
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

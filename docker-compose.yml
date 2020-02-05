@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  elastic-beats:
+    container_name: beats-sidecar
+    build: .
+
+networks:
+  default:
+    external:
+      name: elastic_elastic-net
